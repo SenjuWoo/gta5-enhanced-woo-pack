@@ -12,14 +12,14 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/ShugokiFable/gta5-enhanced-woo-pack/actions/workflows/ci.yml"><img src="https://github.com/ShugokiFable/gta5-enhanced-woo-pack/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/ShugokiFable/gta5-enhanced-woo-pack/releases/tag/v1.0.4"><img src="https://img.shields.io/badge/release-v1.0.4-53d7ff?labelColor=0d0f11" alt="v1.0.4"></a>
+  <a href="https://github.com/SenjuWoo/gta5-enhanced-woo-pack/actions/workflows/ci.yml"><img src="https://github.com/SenjuWoo/gta5-enhanced-woo-pack/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/SenjuWoo/gta5-enhanced-woo-pack/releases/tag/v1.0.4"><img src="https://img.shields.io/badge/release-v1.0.4-53d7ff?labelColor=0d0f11" alt="v1.0.4"></a>
   <img src="https://img.shields.io/badge/GTA%20V%20Enhanced-1.0.1158.13-a8ff3e?labelColor=0d0f11" alt="GTA V Enhanced 1.0.1158.13">
   <img src="https://img.shields.io/badge/modpack%20only-not%20the%20game-8f9aa6?labelColor=0d0f11" alt="Modpack only">
 </p>
 
 <p align="center">
-  <a href="https://github.com/ShugokiFable/gta5-enhanced-woo-pack/releases/latest">Latest release</a>
+  <a href="https://github.com/SenjuWoo/gta5-enhanced-woo-pack/releases/latest">Latest release</a>
   ·
   <a href="#install">Install</a>
   ·
@@ -74,7 +74,7 @@ Full live list: [`CREDITS.md`](CREDITS.md). Counts change when authors are added
 
 ### Steps
 
-1. Download **all** files from the [latest release](https://github.com/ShugokiFable/gta5-enhanced-woo-pack/releases/latest): every `WooPack-Core.7z.00x` volume **and** `Install.bat`. Keep them in the **same folder**.
+1. Download **all** files from the [latest release](https://github.com/SenjuWoo/gta5-enhanced-woo-pack/releases/latest): every `WooPack-Core.7z.00x` volume **and** `Install.bat`. Keep them in the **same folder**.
 2. Install ScriptHookV (and NVE, if you use it) into the game folder first.
 3. Double-click `Install.bat`. It will:
    - find `Grand Theft Auto V Enhanced` from Steam (or let you point at it),
