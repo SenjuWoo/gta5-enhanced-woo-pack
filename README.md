@@ -13,7 +13,7 @@
 
 <p align="center">
   <a href="https://github.com/SenjuWoo/gta5-enhanced-woo-pack/actions/workflows/ci.yml"><img src="https://github.com/SenjuWoo/gta5-enhanced-woo-pack/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/SenjuWoo/gta5-enhanced-woo-pack/releases/tag/v1.0.4"><img src="https://img.shields.io/badge/release-v1.0.4-53d7ff?labelColor=0d0f11" alt="v1.0.4"></a>
+  <a href="https://github.com/SenjuWoo/gta5-enhanced-woo-pack/releases/latest"><img src="https://img.shields.io/github/v/release/SenjuWoo/gta5-enhanced-woo-pack?label=release&color=53d7ff" alt="latest release"></a>
   <img src="https://img.shields.io/badge/GTA%20V%20Enhanced-1.0.1158.13-a8ff3e?labelColor=0d0f11" alt="GTA V Enhanced 1.0.1158.13">
   <img src="https://img.shields.io/badge/modpack%20only-not%20the%20game-8f9aa6?labelColor=0d0f11" alt="Modpack only">
 </p>
