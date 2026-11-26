@@ -14,7 +14,7 @@
 The Woo Pack is a ready-to-play single-player mod layer for **GTA V Enhanced** on
 Steam. One download holds the script hook, ScriptHookVDotNet, the NaturalVision
 Evolved graphics overhaul with its ReShade preset, the DLSS 5 add-on, a stack of
-story-mode script mods and 14 add-on mansions and interiors, all pre-wired through
+story-mode script mods and 14 add-on packs (mansions, interiors and an MP character overhaul), all pre-wired through
 Onigiri. Download every release volume, run `Install.bat`, launch the game. You
 bring your own copy of GTA V Enhanced; the pack never ships Rockstar's files.
 
@@ -72,7 +72,7 @@ Delete the files the pack copied, then run Steam's "Verify integrity of game fil
 | Script hook | ScriptHookV `3889.0` (Enhanced), ScriptHookVDotNet Enhanced `1.1.0.6`, ASI loader |
 | Graphics | NVE with ReShade (ASI build, NVE preset), DLSS 5 add-on (RenoDX) with NVIDIA Streamline runtimes |
 | Scripts | the SHVDN story-mode mods listed in [CREDITS.md](CREDITS.md#script-mods) |
-| Add-on packs | 26 DLC packs through Onigiri: 14 add-on maps and interiors plus NVE's 12 environment packs |
+| Add-on packs | 26 DLC packs through Onigiri: 14 add-on map, interior and character packs plus NVE's 12 environment packs |
 | Frameworks | limit adjusters, DirectStorage fix, decal patch, proper steering fix, blinker, Menyoo, SwapMainRide |
 
 Every author, URL and inclusion note is in [`CREDITS.md`](CREDITS.md). That file is the source of truth when mods are added or removed.
