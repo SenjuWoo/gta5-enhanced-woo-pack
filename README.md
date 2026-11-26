@@ -91,7 +91,7 @@ Every author, URL and inclusion note is in [`CREDITS.md`](CREDITS.md). That file
 
 | Symptom | Fix |
 | --- | --- |
-| "Drag the game folder here" rejects the folder you dropped | Fixed in the installer from the next release. With the v1.0.4 `Install.bat`, close the window and drag the game folder **onto `Install.bat`** itself, or run `Install.bat "<game folder>"` from a command prompt. |
+| "Drag the game folder here" rejects the folder you dropped | Fixed in the v1.0.5 `Install.bat`; download it from the latest release. With the v1.0.4 `Install.bat`, close the window and drag the game folder **onto `Install.bat`** itself, or run `Install.bat "<game folder>"` from a command prompt. |
 | Game loads forever into online/MP | A broken DLC pack. Disable entries one at a time in `onigiri\common\data\dlclist.xml` (comment out `<Item>` lines). |
 | Scripts not loading | Check `ScriptHookV.log`. The pack bundles ScriptHookV `3889.0`; a build mismatch there means the game updated past `1.0.1158.13` and needs a newer ScriptHookV from [dev-c.com](https://www.dev-c.com/gta/scripthookv). |
 | Black or blank web UI in Online Vehicles Shops | Install that mod's `scaleform_web.rpf` files into `onigiri\update\x64\patch\data\cdimages\scaleform_web.rpf\`. |
@@ -125,7 +125,7 @@ Verified in this repository:
 
 - CI builds a test pack with `build_release.py` and checks 7-Zip's listing: game DLLs (`amd_ags_x64.dll` and the rest), the no-redistribution mods and `_DLSS5_Backup` never reach a volume.
 - CI runs `Install.bat` on Windows against a fake game folder, with the exact release bytes and a CRLF copy, and checks it merges without touching existing game files.
-- Release **v1.0.4** holds `WooPack-Core.7z.001` to `.006` plus `Install.bat`; the release `Install.bat` is byte-identical to the one in this repository.
+- Release **v1.0.5** holds `WooPack-Core.7z.001` to `.006` plus `Install.bat`; the volumes are byte-identical to v1.0.4 and the release `Install.bat` is byte-identical to the one in this repository.
 
 Not claimed: in-game screenshots, or any affiliation with Rockstar Games, Take-Two, Alexander Blade, Razed or the mod authors.
 

@@ -1,11 +1,13 @@
 # Changelog
 
-## Unreleased (repository only; release v1.0.4 assets unchanged)
+## v1.0.5 (2026-11-26)
 
-- README rewritten to match what release v1.0.4 actually ships: ScriptHookV 3889.0, ScriptHookVDotNet
+- Release assets: a new `Install.bat`; the six `WooPack-Core.7z.001` to `.006` volumes are byte-identical
+  to v1.0.4 (same SHA-256), so v1.0.4 users only need the new `Install.bat`.
+- README rewritten to match what the release actually ships: ScriptHookV 3889.0, ScriptHookVDotNet
   Enhanced 1.1.0.6, NVE with ReShade and the DLSS 5 add-on are bundled. The previous README said they were
   not included, which contradicted the release, `Install.bat` and `CREDITS.md`.
-- `Install.bat` fixes (release v1.0.4 assets unchanged; they ship with the next release): the "drag the
+- `Install.bat` fixes: the "drag the
   game folder here" prompt now accepts a dropped path (surrounding quotes and a trailing backslash are
   stripped); robocopy exit codes 8 and above now stop the installer with an error and exit code 1 instead of
   printing Done; the "Done! Next steps:" banner keeps its `!`; the fallback pack folder no longer ends in a
