@@ -34,3 +34,18 @@ jobs:
           assert '_DLSS5_Backup' in t, 'DLSS5 backup exclusion missing'
           print('exclusion safeguards present in build_release.py')
           PY
+      - name: Build volumes from a fake pack and check the 7-Zip listing
+        run: |
+          command -v 7z >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq p7zip-full; }
+          python tests/test_release.py
+
+  installer:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Run Install.bat against a fake game folder (LF release bytes and CRLF)
+        run: python tests/test_release.py Installer

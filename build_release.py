@@ -7,7 +7,8 @@ Exclusions (never ship):
   - logs / pdb debug symbols
 
 Everything else in the pack ships: NVE, DLSS5/Streamline, ReShade, SHV, SHVDN, scripts, DLC packs.
-Usage: python build_release.py [pack_dir] [out_dir]
+Usage: python build_release.py <pack_dir> <out_dir>
+       (or set WOOPACK_PACK_DIR / WOOPACK_OUT_DIR). out_dir's old WooPack-Core.7z.* volumes are replaced.
 """
 import os
 import shutil
@@ -16,9 +17,13 @@ import sys
 from pathlib import Path
 
 SZ = shutil.which("7z") or r"C:\Program Files\7-Zip\7z.exe"
-PACK = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(r"Z:\Backup\GTA 5\Enchanced\Grand Theft Auto V Enhanced Woo Pack")
-OUT = Path(sys.argv[2]) if len(sys.argv) > 2 else Path(r"Z:\Backup\GTA 5\Enchanced\publish")
-VOL = OUT / "WooPack-Core.7z"
+# No machine-specific defaults: the pack folder and the output folder are always named explicitly,
+# because main() deletes old volumes in the output folder before it writes new ones.
+_pack = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("WOOPACK_PACK_DIR")
+_out = sys.argv[2] if len(sys.argv) > 2 else os.environ.get("WOOPACK_OUT_DIR")
+PACK = Path(_pack) if _pack else None
+OUT = Path(_out) if _out else None
+VOL = OUT / "WooPack-Core.7z" if OUT else None
 
 # Game binaries (Rockstar) — never redistribute.
 GAME_DLLS = (
@@ -33,6 +38,11 @@ NO_REDIST = ("StoreRobberyEnhanced", "modern_wood_house_1a", "BennysMotorworksRe
 EXCL = ["-xr!*_DLSS5_Backup*", "-xr!*.log", "-xr!*.pdb"] + [f"-xr!*{d}" for d in GAME_DLLS] + [f"-xr!*{n}*" for n in NO_REDIST]
 
 def main() -> None:
+    if PACK is None or OUT is None:
+        sys.exit("usage: python build_release.py <pack_dir> <out_dir>  (or set WOOPACK_PACK_DIR and WOOPACK_OUT_DIR)")
+    if not PACK.is_dir():
+        sys.exit(f"pack folder not found: {PACK}")
+    OUT.mkdir(parents=True, exist_ok=True)
     for vol in OUT.glob("WooPack-Core.7z.*"):
         vol.unlink()
     print(f"pack: {PACK}  ->  {VOL}.001 ...")
