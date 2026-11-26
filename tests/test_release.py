@@ -119,6 +119,76 @@ class Installer(unittest.TestCase):
     def test_merge_crlf(self):
         self.check_merge(self.lf.replace(b"\n", b"\r\n"))
 
+    def test_done_banner_intact(self):
+        for data in (self.lf, self.lf.replace(b"\n", b"\r\n")):
+            r = self.install(data, self.game)
+            self.assertEqual(r.returncode, 0, r.stdout)
+            self.assertIn("Done! Next steps:", r.stdout)
+
+    def test_robocopy_failure_returns_nonzero(self):
+        # A destination file held open with no sharing makes robocopy report FAILED (exit >= 8).
+        import ctypes
+        from ctypes import wintypes
+        locked = self.game / "ScriptHookV.dll"
+        locked.write_bytes(b"locked")
+        k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        k32.CreateFileW.restype = wintypes.HANDLE
+        k32.CreateFileW.argtypes = [wintypes.LPCWSTR, wintypes.DWORD, wintypes.DWORD, wintypes.LPVOID,
+                                    wintypes.DWORD, wintypes.DWORD, wintypes.HANDLE]
+        handle = k32.CreateFileW(str(locked), 0x80000000, 0, None, 3, 0, None)  # GENERIC_READ, share none
+        self.assertNotEqual(handle, wintypes.HANDLE(-1).value, "could not lock the destination file")
+        self.addCleanup(k32.CloseHandle, handle)
+        r = self.install(self.lf, self.game)
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("copying into the game folder failed", r.stdout)
+        self.assertNotIn("Done! Next steps:", r.stdout)
+
+    def prompt_install(self, data: bytes, answer: str):
+        """Run with no argument so the drag-the-folder prompt is reached.
+
+        The automatic Steam/registry lookup is cut out of the test copy so the run can never find
+        (or write into) a real install on the machine running the tests.
+        """
+        text = data.decode()
+        start = text.index("for %%R in (HKCU")
+        end = text.index(":found")
+        text = text[:start] + text[end:]
+        self.assertIn("set /p", text)
+        bat = self.dl / "Install.bat"
+        bat.write_bytes(text.encode())
+        return subprocess.run(["cmd", "/d", "/c", str(bat)], cwd=self.dl, input=answer + "\r\n",
+                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+
+    def test_prompt_accepts_quoted_path_with_spaces(self):
+        self.assertIn(" ", str(self.game))
+        for data in (self.lf, self.lf.replace(b"\n", b"\r\n")):
+            r = self.prompt_install(data, f'"{self.game}"')
+            self.assertEqual(r.returncode, 0, r.stdout)
+            self.assertNotIn("does not contain", r.stdout)
+            self.assertTrue((self.game / "scripts/OddJobs.dll").is_file(), r.stdout)
+            (self.game / "scripts/OddJobs.dll").unlink()
+
+    def test_prompt_accepts_quoted_path_with_trailing_backslash(self):
+        r = self.prompt_install(self.lf, f'"{self.game}\\"')
+        self.assertEqual(r.returncode, 0, r.stdout)
+        self.assertTrue((self.game / "scripts/OddJobs.dll").is_file(), r.stdout)
+
+    @unittest.skipUnless(SEVEN_ZIP, "7-Zip (7z) not on PATH")
+    def test_fallback_source_without_pack_folder(self):
+        # Pack extracts to the download folder itself (no "*Woo Pack*" folder): SRC falls back to the
+        # script folder, whose trailing backslash used to escape robocopy's closing quote.
+        shutil.rmtree(self.dl / PACK_NAME)
+        seed = self.tmp / "seed"
+        seed.mkdir()
+        (seed / "fallback_mod.dll").write_bytes(b"mod")
+        r = run([SEVEN_ZIP, "a", "-y", str(self.dl / "WooPack-Core.7z"), str(seed / "fallback_mod.dll")])
+        self.assertEqual(r.returncode, 0, r.stdout)
+        (self.dl / "WooPack-Core.7z").rename(self.dl / "WooPack-Core.7z.001")
+        r = self.install(self.lf, self.game)
+        self.assertEqual(r.returncode, 0, r.stdout)
+        self.assertTrue((self.game / "fallback_mod.dll").is_file(), r.stdout)
+        self.assertIn("Done! Next steps:", r.stdout)
+
     def test_rejects_non_game(self):
         empty = self.tmp / "not the game"
         empty.mkdir()

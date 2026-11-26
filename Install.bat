@@ -22,6 +22,9 @@ if not defined GAME (
   echo Could not find the game automatically.
   set /p "GAME=Drag the game folder here and press Enter: "
 )
+rem a dropped path arrives wrapped in quotes; strip them and any trailing backslash
+if defined GAME set "GAME=!GAME:"=!"
+if defined GAME if "!GAME:~-1!"=="\" set "GAME=!GAME:~0,-1!"
 if not exist "%GAME%\GTA5_Enhanced.exe" (
   echo ERROR: "%GAME%" does not contain GTA5_Enhanced.exe
   pause
@@ -51,15 +54,24 @@ if errorlevel 1 (
 :extracted
 for /d %%D in ("%~dp0*Woo Pack*") do set "SRC=%%~D"
 if not defined SRC set "SRC=%~dp0"
+rem a trailing backslash would escape the closing quote of the robocopy source
+if "!SRC:~-1!"=="\" set "SRC=!SRC:~0,-1!"
 echo Pack folder  : "%SRC%"
 echo.
 
 rem ---- copy into the game (merge, never deletes game files) ----
 echo Copying mods into the game folder ...
 robocopy "%SRC%" "%GAME%" /E /IS /NFL /NDL /NJH /R:1 /W:1
+rem robocopy exit codes 0-7 are success (files copied / already present); 8 and above are failures
+if errorlevel 8 (
+  echo ERROR: copying into the game folder failed ^(robocopy exit code %errorlevel%^).
+  echo Close the game, make sure the folder is writable and re-run.
+  pause
+  exit /b 1
+)
 echo.
 echo ============================================================
-echo   Done! Next steps:
+echo   Done^^! Next steps:
 echo   1. Launch the game. Everything is included - ScriptHookV,
 echo      SHVDN, NVE, DLSS5 and ReShade ship in this pack.
 echo   2. Check ScriptHookVDotNet.log in the game folder for
